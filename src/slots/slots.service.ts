@@ -15,6 +15,12 @@ export class SlotsService {
     return this.slotRepository.find();
   }
 
+  findAllForOrganization(organization): Promise<Slot[]> {
+    return this.slotRepository.createQueryBuilder("slot")
+      .where("slot.organization = :organization", { organization })
+      .getMany();
+  }
+
   findOne(id: string): Promise<Slot> {
     return this.slotRepository.findOne(id);
   }
@@ -24,7 +30,7 @@ export class SlotsService {
   }
 
   async fetch(user: User): Promise<Slot[] | undefined> {
-    return this.findAll();
+    return this.findAllForOrganization(user.organization);
   }
 
   async book(slotId: number, user: User): Promise<Slot[]> {
