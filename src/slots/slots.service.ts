@@ -36,7 +36,7 @@ export class SlotsService {
       slot.user_id = user.id;
       await this.slotRepository.save(slot);
     }
-    return this.findAll();
+    return this.findAllForOrganization(user.organization);
   }
 
   async unbook(slotId: number, user: User): Promise<Slot[]> {
@@ -46,6 +46,6 @@ export class SlotsService {
       slot.user_id = null;
       await this.slotRepository.save(slot);
     }
-    return this.findAll();
+    return this.findAllForOrganization(user.organization);
   }
 }
