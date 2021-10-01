@@ -15,7 +15,7 @@ import { Slot } from './slots/slot.entity';
     SlotsModule,
     TypeOrmModule.forRoot({
       type: 'sqlite',
-      database: '../db.sqlite3',
+      database: './db.sqlite3',
       entities: [Slot],
       logging: true
     }),
