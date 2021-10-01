@@ -26,4 +26,18 @@ export class SlotsService {
   async fetch(user: User): Promise<Slot[] | undefined> {
     return this.findAll();
   }
+
+  async book(slotId: number, user: User): Promise<Slot[]> {
+    const slot = await this.slotRepository.findOneOrFail(slotId);
+    slot.user_id = user.userId;
+    await this.slotRepository.save(slot);
+    return this.findAll();
+  }
+
+  async unbook(slotId: number, user: User): Promise<Slot[]> {
+    const slot = await this.slotRepository.findOneOrFail(slotId);
+    slot.user_id = null;
+    await this.slotRepository.save(slot);
+    return this.findAll();
+  }
 }

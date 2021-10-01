@@ -13,7 +13,7 @@ export class Slot {
   start_time: number;
 
   @Column()
-  user_id: string;
+  user_id: number;
 
   @Column()
   organization: string;
