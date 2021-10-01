@@ -1,18 +1,16 @@
+
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Slot {
+export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  room_name: string;
+  username: string;
 
   @Column()
-  start_time: number;
-
-  @Column()
-  user_id: number;
+  password: string;
 
   @Column()
   organization: string;

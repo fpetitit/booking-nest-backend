@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Slot } from './slot.entity';
-import { User } from '../users/users.service';
+import { User } from '../users/user.entity';
 
 @Injectable()
 export class SlotsService {
@@ -33,7 +33,7 @@ export class SlotsService {
     const slot = await this.slotRepository.findOneOrFail(slotId);
     if (slot.user_id == null) {
       // user has right to book a slot only if it is not already booked
-      slot.user_id = user.userId;
+      slot.user_id = user.id;
       await this.slotRepository.save(slot);
     }
     return this.findAll();
@@ -41,7 +41,7 @@ export class SlotsService {
 
   async unbook(slotId: number, user: User): Promise<Slot[]> {
     const slot = await this.slotRepository.findOneOrFail(slotId);
-    if (slot.user_id == user.userId) {
+    if (slot.user_id == user.id) {
       // user has right to unbook a slot only if it is booked by himself
       slot.user_id = null;
       await this.slotRepository.save(slot);
