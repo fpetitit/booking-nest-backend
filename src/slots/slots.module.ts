@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { SlotsService } from './slots.service';
-import { UsersModule } from '../users/users.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Slot } from './slot.entity';
 
 @Module({
   imports: [
-    UsersModule,
+    TypeOrmModule.forFeature([Slot])
   ],
   providers: [SlotsService],
   exports: [SlotsService],

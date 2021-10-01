@@ -4,10 +4,25 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { SlotsModule } from './slots/slots.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Connection } from 'typeorm';
+import { Slot } from './slots/slot.entity';
 
 @Module({
-  imports: [AuthModule, UsersModule, SlotsModule],
+  imports: [
+    AuthModule,
+    UsersModule,
+    SlotsModule,
+    TypeOrmModule.forRoot({
+      type: 'sqlite',
+      database: '../db.sqlite3',
+      entities: [Slot],
+      logging: true
+    }),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private connection: Connection) { }
+}

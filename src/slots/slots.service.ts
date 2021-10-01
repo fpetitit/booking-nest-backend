@@ -1,29 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import { User, UsersService } from '../users/users.service';
-
-export type Slot = any;
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Slot } from './slot.entity';
+import { User } from '../users/users.service';
 
 @Injectable()
 export class SlotsService {
   constructor(
-    private usersService: UsersService,
+    @InjectRepository(Slot)
+    private slotRepository: Repository<Slot>,
   ) { }
 
-  private readonly slots = [
-    {
-      userId: 1,
-      username: 'john',
-      password: 'changeme',
-    },
-    {
-      userId: 2,
-      username: 'maria',
-      password: 'guess',
-    },
-  ];
+  findAll(): Promise<Slot[]> {
+    return this.slotRepository.find();
+  }
 
-  async fetch(user: User): Promise<Slot | undefined> {
+  findOne(id: string): Promise<Slot> {
+    return this.slotRepository.findOne(id);
+  }
 
-    return user.organization;
+  async remove(id: string): Promise<void> {
+    await this.slotRepository.delete(id);
+  }
+
+  async fetch(user: User): Promise<Slot[] | undefined> {
+    return this.findAll();
   }
 }
